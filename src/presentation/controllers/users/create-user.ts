@@ -10,14 +10,14 @@ export class CreateUserController implements Controller {
   }
 
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
-    const { name, email, cpf, password, admin } = httpRequest.body
+    const { name, email, cpf, password } = httpRequest.body
 
     const user = await this.createUser.execute({
       name,
       email,
       cpf,
       password,
-      admin
+      admin: false
     })
 
     return ok(user)

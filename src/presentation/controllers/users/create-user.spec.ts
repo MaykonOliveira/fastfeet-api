@@ -34,13 +34,12 @@ describe('Create User Controller', () => {
       name: 'foo',
       email: 'foo@example.com',
       cpf: 'foo_cpf',
-      password: 'password',
-      admin: false
+      password: 'password'
     }
 
     const httpRequest: HttpRequest = { body: user }
     await sut.handle(httpRequest)
 
-    expect(executeSpy).toHaveBeenCalledWith(user)
+    expect(executeSpy).toHaveBeenCalledWith({ ...user, admin: false })
   })
 })
