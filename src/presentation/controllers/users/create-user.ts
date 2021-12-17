@@ -1,5 +1,5 @@
 import { CreateUser } from '../../../domain/usecases/create-user'
-import { ok } from '../../helpers/http'
+import { ok, serverError } from '../../helpers/http'
 import { Controller, HttpRequest, HttpResponse } from '../../protocols'
 
 export class CreateUserController implements Controller {
@@ -10,16 +10,20 @@ export class CreateUserController implements Controller {
   }
 
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
-    const { name, email, cpf, password } = httpRequest.body
+    try {
+      const { name, email, cpf, password } = httpRequest.body
 
-    const user = await this.createUser.execute({
-      name,
-      email,
-      cpf,
-      password,
-      admin: false
-    })
+      const user = await this.createUser.execute({
+        name,
+        email,
+        cpf,
+        password,
+        admin: false
+      })
 
-    return ok(user)
+      return ok(user)
+    } catch (error) {
+      return serverError(error)
+    }
   }
 }
